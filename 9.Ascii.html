@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ASCII Finder</title>
+    <style>
+      input {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frmContainer">
+      <h1>ASCII Finder</h1>
+      <form action="" method="GET">
+        <label for="userInput">Enter your String: </label>
+        <input type="text" id="userInput" /> <br /><br />
+        <input type="submit" onclick="getASCII(); return false" />
+      </form>
+    </div>
+    <script>
+      function getASCII() {
+        var str = document.getElementById("userInput").value;
+        var out = "";
+        if (str) {
+          for (idx in str) {
+            out += ` ${str[idx]} = ${str.charCodeAt(idx)} ,`;
+          }
+        } else {
+          console.log("No Input");
+        }
+        alert(out);
+      }
+    </script>
+  </body>
+</html>

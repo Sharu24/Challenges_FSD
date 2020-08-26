@@ -1,0 +1,125 @@
+<!-- 
+Create a Stopwatch using Javascript and HTML with ​start, pause, reset button​.
+Note : Try adding audio effects
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      center {
+        margin-top: 10vh;
+        font-size: 2.4rem;
+      }
+      h1 {
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        text-shadow: 1px 2px 2px rgb(63, 22, 22), -1px 2px 2px rgb(63, 22, 22);
+      }
+      .sWatchLbl {
+        font-size: 2rem;
+        text-shadow: 1px 0px 1px rgb(63, 22, 22);
+      }
+      input {
+        font-size: 2rem;
+        text-align: center;
+        border: 1px solid grey;
+        border-radius: 4px;
+        box-shadow: 1px 2px 3px rgb(63, 22, 22);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+        1 div, 3 buttons
+        1 div => HH:MM:SS - starts with 00:00:00
+     -->
+    <center>
+      <h1>Stop Watch</h1>
+      <div class="sWatchLbl">
+        <label for="#hh">Hrs</label>
+        <span>:</span>
+        <label for="#hh">Mins</label>
+        <span>:</span>
+        <label for="#hh">Secs</label>
+      </div>
+      <div class="sWatch">
+        <input type="Number" id="hh" min="0" max="23" class="time" value="0" />
+        <span>:</span>
+        <input type="Number" id="mi" min="0" max="59" class="time" value="0" />
+        <span>:</span>
+        <input type="Number" id="ss" min="0" max="59" class="time" value="0" />
+      </div>
+      <br />
+      <div class="sWatchBtn">
+        <input type="button" class="btn" name="start" value="Start" />
+        <input type="button" class="btn" name="pause" value="Pause" />
+        <input type="button" class="btn" name="reset" value="Reset" />
+      </div>
+    </center>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        var btn = document.querySelectorAll(".btn");
+        var sWatch = document.querySelectorAll(".time");
+        // var intervalId = setInterval(startClock, 1000);
+
+        function startClock() {}
+        function handleControls(action) {
+          if (action === "start") {
+            var intervalId = setInterval(() => {
+              console.log("Start in Loop, Interval ID = ", intervalId);
+              console.log(sWatch[0].value);
+              var audio1 = new Audio("./sounds/tick.wav");
+              var audio2 = new Audio("./sounds/alarm3.wav");
+
+              if (Number(sWatch[2].value)) {
+                --sWatch[2].value;
+                audio1.play();
+              } else if (Number(sWatch[1].value)) {
+                --sWatch[1].value;
+                audio1.play();
+                sWatch[2].value = 59;
+              } else if (Number(sWatch[0].value)) {
+                --sWatch[0].value;
+                sWatch[1].value = 59;
+                audio1.play();
+              } else {
+                console.log("Start ended, Interval Id = ", intervalId);
+                clearInterval(intervalId);
+                btn[0].disabled = false;
+                audio2.play();
+              }
+            }, 1000);
+          } else if (action === "pause") {
+            console.log("Paused, Interval ID = ", intervalId);
+            clearInterval(intervalId);
+          } else if (action === "reset") {
+            console.log(intervalId);
+            clearInterval(intervalId);
+            sWatch[0].value = 0;
+            sWatch[1].value = 0;
+            sWatch[1].value = 0;
+          }
+        }
+
+        btn[0].addEventListener("click", evt => {
+          btn[0].disabled = true;
+          handleControls("start");
+        });
+
+        btn[1].addEventListener("click", () => {
+          //   console.log("In Pause", btn[0]);
+          handleControls("pause");
+        });
+
+        btn[2].addEventListener("click", () => {
+          //   console.log("In Pause", btn[0]);
+          handleControls("reset");
+        });
+      });
+    </script>
+  </body>
+</html>

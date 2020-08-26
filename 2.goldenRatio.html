@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function genColor(n) {
+        if (n)
+          return genColor(--n) + Math.floor(Math.random() * 16).toString(16);
+        else return "#";
+      }
+
+      function genGoldenDivs(pDiv, pW, pH, dig, start, flag, posArr, posInd) {
+        var cDiv = document.createElement("div");
+        var style = window.getComputedStyle(pDiv);
+        if (!start) {
+          pW = flag ? pW : pW * 0.4;
+          pH = flag ? pH * 0.4 : pH;
+          cDiv.style.position = "absolute";
+          cDiv.style[posArr[posInd]] = 0;
+          if (posInd === posArr.length - 1) posInd = 0;
+          else posInd++;
+        } else {
+          cDiv.style.position = "relative";
+          cDiv.style.margin = "2rem auto";
+        }
+        cDiv.style.width = `${pW}vw`;
+        cDiv.style.height = `${pH}vh`;
+        cDiv.style.backgroundColor = genColor(6);
+        pDiv.appendChild(cDiv);
+        if (dig)
+          genGoldenDivs(
+            cDiv,
+            pW,
+            pH,
+            --dig,
+            false,
+            flag ? false : true,
+            posArr,
+            posInd
+          );
+        else return;
+      }
+      window.addEventListener("DOMContentLoaded", () => {
+        var count = 0;
+        var intervalId = setInterval(() => {
+          var body = document.querySelector("body");
+          body.innerHTML = "";
+          genGoldenDivs(
+            body,
+            90,
+            90,
+            20,
+            true,
+            true,
+            ["left", "top", "right", "bottom"],
+            0
+          );
+          count++ >= 10 ? clearInterval(intervalId) : "";
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
+
+<!-- 
+    input
+        parent div
+            height, width
+    output
+        Create a Div
+        calculate based on parent div
+            alternate 40% for width and height
+        generate random background color
+            set backgroundColor
+        Absolute position the element alternatively
+            set let/top/right/bottom
+        Attach div to Parent Element
+        Invoke the function Recursively
+ -->
